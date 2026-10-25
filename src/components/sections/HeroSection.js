@@ -1,11 +1,42 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../../App';
+import { useInView, prefersReducedMotion } from '../AnimateIn';
 
 const VOICE_TICKS = 24;
-const VOICE_ON = 22; // ≈ 94%
+const CLOSING_LINE = 'Today that ends. Lumina is open to everyone.';
+
+// The editor plays a short story once it scrolls into view:
+// 1 = first suggestion accepted, 2 = closing line typing, 3 = second suggestion accepted.
+function useEditorStory(start) {
+  const [step, setStep] = useState(0);
+  const [typed, setTyped] = useState('');
+
+  useEffect(() => {
+    if (!start) return undefined;
+    if (prefersReducedMotion()) {
+      setStep(3);
+      setTyped(CLOSING_LINE);
+      return undefined;
+    }
+    const timers = [];
+    timers.push(setTimeout(() => setStep(1), 700));
+    timers.push(setTimeout(() => setStep(2), 1500));
+    CLOSING_LINE.split('').forEach((_, i) => {
+      timers.push(setTimeout(() => setTyped(CLOSING_LINE.slice(0, i + 1)), 1700 + i * 42));
+    });
+    timers.push(setTimeout(() => setStep(3), 1700 + CLOSING_LINE.length * 42 + 700));
+    return () => timers.forEach(clearTimeout);
+  }, [start]);
+
+  return { step, typed };
+}
 
 function HeroSection() {
   const { openModal } = useContext(ModalContext);
+  const [stageRef, stageInView] = useInView(0.3);
+  const { step, typed } = useEditorStory(stageInView);
+  const voice = step >= 3 ? 94 : step >= 1 ? 88 : 81;
+  const voiceOn = Math.round((voice / 100) * VOICE_TICKS);
 
   return (
     <section className="hero" id="hero">
@@ -38,8 +69,8 @@ function HeroSection() {
         </div>
 
         {/* PRODUCT STAGE */}
-        <div className="stage-wrap">
-          <div className="stage" aria-label="Lumina editor preview">
+        <div className="stage-wrap" ref={stageRef}>
+          <div className={`stage story-${step}`} aria-label="Lumina editor preview">
             <div className="stage-bar">
               <div className="crumbs">Northwind <span>/</span> Launch week <span>/</span> <b>LinkedIn post</b></div>
               <div className="seg">
@@ -71,20 +102,23 @@ function HeroSection() {
               </aside>
 
               <div className="sheet">
-                <div className="sheet-meta">Draft 3 · Lumina edited 2 min ago</div>
+                <div className="sheet-meta">
+                  Draft 3 · {step >= 3 ? 'Lumina edited just now' : 'Lumina is editing…'}
+                </div>
                 <h4>We built the tool we kept wishing existed.</h4>
-                <p>
-                  For eight months we <del>have been diligently working on</del>{' '}
-                  <ins>quietly built</ins> something for people who write for a living.
+                <p className={step >= 1 ? 'applied' : ''}>
+                  For eight months we <span className="edit-del">have been diligently working on</span>
+                  <span className="edit-ins"> quietly built</span> something for people who write for a living.
                   <span className="mark-n">1</span>
                 </p>
-                <p>
+                <p className={step >= 3 ? 'applied' : ''}>
                   Content is broken. We copy-paste between six tools, lose the voice that made
-                  people follow us, and <del>leverage synergies to</del> <ins>spend three hours on</ins>{' '}
-                  what should take twenty minutes.<span className="mark-n">2</span>
+                  people follow us, and <span className="edit-del">leverage synergies to</span>
+                  <span className="edit-ins"> spend three hours on</span>{' '}
+                  what should take twenty minutes.<span className={`mark-n${step === 2 ? ' pulse' : ''}`}>2</span>
                 </p>
-                <p>
-                  Today that ends. Lumina is open to everyone<span className="type-cursor" />
+                <p className="typed-line">
+                  {typed}<span className="type-cursor" />
                 </p>
               </div>
 
@@ -94,10 +128,12 @@ function HeroSection() {
                     <span className="mono">Voice match</span>
                     <span className="mono">Northwind</span>
                   </div>
-                  <div className="voice-score">94<small>%</small></div>
+                  <div className="voice-score">
+                    <span key={voice} className="voice-num">{voice}</span><small>%</small>
+                  </div>
                   <div className="ticks">
                     {Array.from({ length: VOICE_TICKS }, (_, i) => (
-                      <i key={i} className={i < VOICE_ON ? '' : 'off'} />
+                      <i key={i} className={i < voiceOn ? '' : 'off'} style={{ '--i': i }} />
                     ))}
                   </div>
                 </div>
@@ -107,14 +143,18 @@ function HeroSection() {
                   <span className="chip">No jargon</span>
                   <span className="chip">Short lines</span>
                 </div>
-                <div className="suggestion done">
+                <div className={`suggestion${step >= 1 ? ' done' : ''}`}>
                   <div className="s-top"><span className="mark-n">1</span> Too formal for you</div>
-                  <p>You rarely say "diligently". Accepted.</p>
+                  <p>You rarely say "diligently".{step >= 1 && ' Accepted.'}</p>
                 </div>
-                <div className="suggestion">
+                <div className={`suggestion${step >= 3 ? ' done' : ''}`}>
                   <div className="s-top"><span className="mark-n">2</span> Cut the jargon</div>
-                  <p>"Leverage synergies" scores 12% on your voice. Try something concrete.</p>
-                  <div className="s-actions"><span className="ok">Accept</span><span>Skip</span></div>
+                  <p>"Leverage synergies" scores 12% on your voice.{step >= 3 ? ' Accepted.' : ' Try something concrete.'}</p>
+                  {step < 3 && (
+                    <div className="s-actions">
+                      <span className={`ok${step === 2 ? ' armed' : ''}`}>Accept</span><span>Skip</span>
+                    </div>
+                  )}
                 </div>
               </aside>
             </div>

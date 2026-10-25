@@ -1,4 +1,4 @@
-import AnimateIn from '../AnimateIn';
+import AnimateIn, { useInView } from '../AnimateIn';
 
 export const FEATURES = [
   {
@@ -40,6 +40,8 @@ export const FEATURES = [
 ];
 
 function FeaturesSection() {
+  const [listRef, listInView] = useInView(0.05);
+
   return (
     <section id="features">
       <div className="container">
@@ -54,7 +56,7 @@ function FeaturesSection() {
           </p>
         </AnimateIn>
 
-        <div className="index-list">
+        <div ref={listRef} className={`index-list rule-draw${listInView ? ' visible' : ''}`}>
           {FEATURES.map((f, i) => (
             <AnimateIn key={f.title} delay={i % 3} className="index-row">
               <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
