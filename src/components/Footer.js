@@ -6,8 +6,8 @@ function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <Link to="/" className="nav-logo" style={{ fontSize: '1.5rem' }}>Lumina</Link>
-            <p>The AI creative studio for modern teams. Write, design, and automate — all in one place.</p>
+            <Link to="/" className="nav-logo" style={{ fontSize: '2rem' }}>Lumina<span className="dot-mark">.</span></Link>
+            <p>A writing and design studio that learns how you sound — then helps you sound like that more often.</p>
           </div>
 
           <div className="footer-col">
@@ -45,15 +45,16 @@ function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span className="footer-copy">© 2026 Lumina AI, Inc. All rights reserved.</span>
+          <span className="footer-copy">© 2026 Lumina AI, Inc. · Set in Instrument Serif &amp; Geist</span>
           <div className="footer-social">
-            <a href="/" className="social-link" aria-label="Twitter/X">𝕏</a>
-            <a href="/" className="social-link" aria-label="LinkedIn">in</a>
-            <a href="/" className="social-link" aria-label="YouTube">▶</a>
-            <a href="/" className="social-link" aria-label="Instagram">◎</a>
+            <a href="/" className="social-link">X</a>
+            <a href="/" className="social-link">LinkedIn</a>
+            <a href="/" className="social-link">YouTube</a>
+            <a href="/" className="social-link">Instagram</a>
           </div>
         </div>
       </div>
+      <div className="footer-wordmark" aria-hidden="true">Lumina<span>.</span></div>
     </footer>
   );
 }

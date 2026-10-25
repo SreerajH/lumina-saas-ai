@@ -31,24 +31,27 @@ function FaqSection() {
   return (
     <section id="faq">
       <div className="container">
-        <AnimateIn>
-          <div className="section-head" style={{ textAlign: 'center', maxWidth: '480px', margin: '0 auto 3.5rem' }}>
-            <div className="section-label" style={{ justifyContent: 'center', margin: '0 auto 1rem' }}>
-              FAQ
-            </div>
-            <h2>Questions? We've got answers.</h2>
-          </div>
-        </AnimateIn>
+        <div className="faq-layout">
+          <AnimateIn className="faq-aside">
+            <div className="section-label">FAQ</div>
+            <h2>Fair <em>questions.</em></h2>
+            <p>
+              Something we didn't cover? Write to <a href="/contact">hello@lumina.ai</a> — a
+              human replies, usually within four hours.
+            </p>
+          </AnimateIn>
 
-        <div className="faq-grid">
-          {FAQS.map((item, i) => (
-            <AnimateIn key={item.q} delay={i % 2}>
-              <div className="faq-item">
-                <div className="faq-q">{item.q}</div>
+          <AnimateIn className="faq-list">
+            {FAQS.map((item, i) => (
+              <details key={item.q} className="faq-item" open={i === 0}>
+                <summary>
+                  {item.q}
+                  <span className="faq-plus" aria-hidden="true" />
+                </summary>
                 <div className="faq-a">{item.a}</div>
-              </div>
-            </AnimateIn>
-          ))}
+              </details>
+            ))}
+          </AnimateIn>
         </div>
       </div>
     </section>

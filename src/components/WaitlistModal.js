@@ -40,7 +40,7 @@ function WaitlistModal({ onClose }) {
           </div>
         </div>
 
-        <h2>Start for free</h2>
+        <h2>Start <em>writing.</em></h2>
         <p>
           Join 12,000+ creators already using Lumina. No credit card required —
           get instant access to the free plan.
@@ -48,12 +48,12 @@ function WaitlistModal({ onClose }) {
 
         {success ? (
           <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-            <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>🎉</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--red)', lineHeight: 1, marginBottom: '1rem' }}>✓</div>
             <p className="form-success" style={{ fontSize: '1rem', marginTop: 0 }}>{success}</p>
             <p style={{ color: 'var(--muted)', fontSize: '0.85rem', marginTop: '0.75rem' }}>
               Check your inbox for next steps.
             </p>
-            <button className="btn-primary btn-large" onClick={onClose} style={{ marginTop: '1.5rem', borderRadius: '10px' }}>
+            <button className="btn-primary btn-large" onClick={onClose} style={{ marginTop: '1.5rem' }}>
               Got it!
             </button>
           </div>

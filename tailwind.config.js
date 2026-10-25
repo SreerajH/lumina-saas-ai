@@ -4,18 +4,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'lm-bg': '#050508',
-        'lm-surface': '#0d0d14',
-        'lm-surface2': '#13131e',
-        'lm-accent': '#7c6fff',
-        'lm-accent2': '#c084fc',
-        'lm-accent3': '#38bdf8',
-        'lm-text': '#f0f0f8',
-        'lm-muted': '#7a7a9a',
+        'lm-bg': '#f3efe6',
+        'lm-surface': '#fbf9f4',
+        'lm-surface2': '#e8e2d4',
+        'lm-accent': '#e5432a',
+        'lm-accent2': '#b8321c',
+        'lm-accent3': '#2f5d4e',
+        'lm-text': '#17160f',
+        'lm-muted': '#6b665a',
       },
       fontFamily: {
-        display: ['Syne', 'sans-serif'],
-        body: ['DM Sans', 'sans-serif'],
+        display: ['Instrument Serif', 'serif'],
+        body: ['Geist', 'sans-serif'],
+        mono: ['Geist Mono', 'monospace'],
       },
       letterSpacing: {
         tight2: '-0.02em',
