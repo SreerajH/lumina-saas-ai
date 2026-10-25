@@ -2,34 +2,40 @@ import AnimateIn from '../AnimateIn';
 
 export const FEATURES = [
   {
-    icon: '✦',
-    title: 'AI Writing Studio',
-    desc: 'Generate blogs, social posts, ad copy, and product descriptions with a single prompt. Trained on high-converting formats across 40+ industries.',
+    icon: '✎',
+    title: 'Writing Studio',
+    desc: 'Blogs, posts, ad copy and product pages from one prompt — structured from formats that already convert across 40+ industries.',
+    replaces: ['Docs', 'Jasper'],
   },
   {
-    icon: '◈',
-    title: 'Visual Design Engine',
-    desc: 'Create on-brand graphics, social banners, and presentations without design experience. Your brand kit is always respected — automatically.',
+    icon: '◐',
+    title: 'Design Engine',
+    desc: 'On-brand social graphics, banners and decks without opening a design tool. Your kit is applied before you ask.',
+    replaces: ['Canva', 'Templates'],
   },
   {
-    icon: '⟡',
-    title: 'Brand Voice Lock',
-    desc: 'Train Lumina on your tone and style guidelines once. Every piece of content will match your brand — whether it\'s playful, formal, or technical.',
+    icon: 'Aa',
+    title: 'Voice Lock',
+    desc: 'Teach Lumina your tone once. Every draft is scored against it, and anything that sounds off gets flagged in the margin.',
+    replaces: ['Style guide PDF'],
   },
   {
-    icon: '⟳',
-    title: 'Workflow Automation',
-    desc: 'Build content pipelines that run on autopilot. Schedule, repurpose, and distribute across platforms without lifting a finger.',
+    icon: '↻',
+    title: 'Pipelines',
+    desc: 'Turn one long piece into a week of posts, then schedule and distribute it across channels on autopilot.',
+    replaces: ['Buffer', 'Zapier'],
   },
   {
-    icon: '◎',
-    title: 'Performance Analytics',
-    desc: 'See which content drives results. Lumina learns from your best-performing work and continuously improves its output for your audience.',
+    icon: '↗',
+    title: 'Performance',
+    desc: 'See what actually moved people. Lumina learns from your best work and writes the next draft with it in mind.',
+    replaces: ['Spreadsheets'],
   },
   {
-    icon: '⬡',
-    title: 'Team Collaboration',
-    desc: 'Comment, review, and approve content in real-time. Role-based permissions and shared brand assets keep large teams perfectly aligned.',
+    icon: '⁂',
+    title: 'Review',
+    desc: 'Comment, suggest and approve in one place, with roles and shared brand assets that keep a whole team in tune.',
+    replaces: ['Email threads', 'Slack'],
   },
 ];
 
@@ -37,21 +43,30 @@ function FeaturesSection() {
   return (
     <section id="features">
       <div className="container">
-        <AnimateIn className="section-head">
-          <div className="section-label">What you get</div>
-          <h2>Everything creative teams need, in one place</h2>
+        <AnimateIn className="head-split">
+          <div>
+            <div className="section-label">The studio</div>
+            <h2>Six tools you pay for separately. <em>Now one.</em></h2>
+          </div>
           <p>
-            Stop juggling tools. Lumina brings writing, design, and automation together —
-            powered by AI that understands your brand.
+            Lumina folds writing, design and distribution into one place — and runs all of it
+            through a model of how you actually sound.
           </p>
         </AnimateIn>
 
-        <div className="features-grid">
+        <div className="index-list">
           {FEATURES.map((f, i) => (
-            <AnimateIn key={f.title} delay={i % 3} className="feature-card">
-              <div className="feature-icon">{f.icon}</div>
-              <h3>{f.title}</h3>
-              <p>{f.desc}</p>
+            <AnimateIn key={f.title} delay={i % 3} className="index-row">
+              <span className="index-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 className="index-title">{f.title}</h3>
+              <p className="index-desc">{f.desc}</p>
+              <span className="index-replaces">
+                Replaces<br />
+                {f.replaces.map((r, j) => (
+                  <span key={r}>{j > 0 && ', '}<s>{r}</s></span>
+                ))}
+              </span>
+              <span className="index-arrow" aria-hidden="true">→</span>
             </AnimateIn>
           ))}
         </div>

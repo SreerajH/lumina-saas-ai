@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import AnimateIn from '../components/AnimateIn';
 import CtaBanner from '../components/sections/CtaBanner';
 
+// cover: typographic cover style (see .cover-* in index.css); first post is the featured issue.
 const POSTS = [
   {
     id: 1,
@@ -8,140 +10,219 @@ const POSTS = [
     title: 'How AI Writing Tools Are Changing Content Marketing in 2026',
     excerpt: 'The landscape of content creation has fundamentally shifted. Teams that used to spend weeks on a content calendar now ship in days. Here\'s what every marketer needs to know about the AI-first content era.',
     author: 'Sarah Reeves',
+    initials: 'SR',
     date: 'April 5, 2026',
     readTime: '5 min read',
-    gradient: 'linear-gradient(135deg, rgba(124,111,255,0.3) 0%, rgba(192,132,252,0.2) 100%)',
-    icon: '✦',
+    cover: 'sun',
+    coverText: ['Weeks', 'to days.'],
   },
   {
     id: 2,
     tag: 'Product',
     title: 'Brand Voice Lock: Teaching AI to Sound Exactly Like You',
-    excerpt: 'Generic AI content is the fastest way to lose your audience. We explain how Lumina\'s Brand Voice Lock feature trains on your best work and produces content that\'s unmistakably yours — every single time.',
+    excerpt: 'Generic AI content is the fastest way to lose your audience. How Voice Lock trains on your best work and produces content that\'s unmistakably yours — every single time.',
     author: 'James Chen',
+    initials: 'JC',
     date: 'March 28, 2026',
     readTime: '7 min read',
-    gradient: 'linear-gradient(135deg, rgba(56,189,248,0.25) 0%, rgba(124,111,255,0.2) 100%)',
-    icon: '⟡',
+    cover: 'strike',
+    coverText: ['generic', 'yours'],
   },
   {
     id: 3,
     tag: 'Case Study',
     title: 'From 3 Tools to One: Our Customers\' Workflow Transformation',
-    excerpt: 'Real stories from creative directors, indie founders, and content leads who replaced their entire content stack with Lumina. Including the one agency that went from 40 hours to 8 hours a week on content.',
+    excerpt: 'Creative directors, indie founders and content leads who replaced their whole content stack — including the agency that went from 40 hours to 8 a week.',
     author: 'Maya Patel',
+    initials: 'MP',
     date: 'March 15, 2026',
     readTime: '4 min read',
-    gradient: 'linear-gradient(135deg, rgba(192,132,252,0.25) 0%, rgba(245,158,11,0.15) 100%)',
-    icon: '◎',
+    cover: 'stack',
+    coverText: ['3', '1'],
+  },
+  {
+    id: 4,
+    tag: 'Design',
+    title: 'Why We Kept the Red Pen',
+    excerpt: 'Every AI edit in Lumina shows up as a tracked change. The story of why we chose an editor\'s margin over a magic button — and what it did for trust.',
+    author: 'Ines Okafor',
+    initials: 'IO',
+    date: 'March 6, 2026',
+    readTime: '6 min read',
+    cover: 'specimen',
+    coverText: ['Aa', 'Instrument Serif'],
+  },
+  {
+    id: 5,
+    tag: 'Guide',
+    title: 'Writing a Launch Email in Twelve Minutes',
+    excerpt: 'A step-by-step walkthrough, from a one-line prompt to a send-ready email — with every revision and the reason behind it.',
+    author: 'Rohan Kapoor',
+    initials: 'RK',
+    date: 'February 22, 2026',
+    readTime: '8 min read',
+    cover: 'sun',
+    coverText: ['12', 'minutes.'],
+  },
+  {
+    id: 6,
+    tag: 'Product',
+    title: 'Changelog: Voice Lock 2.0 and Shared Brand Libraries',
+    excerpt: 'Voice scores per paragraph, one brand library across your whole team, and a calmer suggestions panel. Everything that shipped in February.',
+    author: 'Lumina Team',
+    initials: 'L',
+    date: 'February 14, 2026',
+    readTime: '3 min read',
+    cover: 'strike',
+    coverText: ['v1.9', 'v2.0'],
+  },
+  {
+    id: 7,
+    tag: 'Case Study',
+    title: 'How Halcyon\'s Editors Learned to Trust a Machine',
+    excerpt: 'Ben Walsh\'s content team was the most sceptical customer we\'ve had. Six months later, they review AI drafts faster than their own.',
+    author: 'Ben Walsh',
+    initials: 'BW',
+    date: 'February 2, 2026',
+    readTime: '5 min read',
+    cover: 'specimen',
+    coverText: ['6', 'Months to trust'],
   },
 ];
 
+const TAGS = ['All', ...new Set(POSTS.map((p) => p.tag))];
+
+function Cover({ post, issue, large = false }) {
+  const [a, b] = post.coverText;
+  return (
+    <div className={`cover cover-${post.cover}${large ? ' cover-lg' : ''}`} aria-hidden="true">
+      {post.cover === 'sun' && (
+        <>
+          <span className="cover-disc" />
+          <span className="cover-word">{a}<br /><em>{b}</em></span>
+        </>
+      )}
+      {post.cover === 'strike' && (
+        <span className="cover-word"><del>{a}</del><br /><ins>‸ {b}</ins></span>
+      )}
+      {post.cover === 'stack' && (
+        <span className="cover-word cover-ratio">{a}<span className="cover-arrow">→</span>{b}</span>
+      )}
+      {post.cover === 'specimen' && (
+        <>
+          <span className="cover-glyph">{a}</span>
+          <span className="cover-caption">{b}</span>
+        </>
+      )}
+      <span className="cover-foot">
+        <span>No. {String(issue).padStart(2, '0')}</span>
+        <span>{post.tag}</span>
+      </span>
+    </div>
+  );
+}
+
+function PostMeta({ post }) {
+  return (
+    <div className="blog-meta">
+      <span className="blog-avatar">{post.initials}</span>
+      <span className="blog-author">{post.author}</span>
+      <span className="blog-meta-dot" />
+      <span>{post.date}</span>
+      <span className="blog-meta-dot" />
+      <span>{post.readTime}</span>
+    </div>
+  );
+}
+
 function BlogCard({ post, index }) {
   return (
-    <AnimateIn delay={index}>
-      <div className="blog-card">
-        {/* Image placeholder */}
-        <div className="blog-card-img" style={{ background: post.gradient }}>
-          <div style={{
-            position: 'absolute', inset: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '3rem', opacity: 0.6,
-          }}>
-            {post.icon}
-          </div>
-        </div>
-
+    <AnimateIn delay={index % 3}>
+      <a href="/blog" className="blog-card" onClick={(e) => e.preventDefault()}>
+        <Cover post={post} issue={post.id} />
         <div className="blog-card-body">
           <span className="blog-tag">{post.tag}</span>
           <h3>{post.title}</h3>
           <p>{post.excerpt}</p>
-          <div className="blog-meta">
-            <span>{post.author}</span>
-            <span className="blog-meta-dot" />
-            <span>{post.date}</span>
-            <span className="blog-meta-dot" />
-            <span>{post.readTime}</span>
-          </div>
+          <PostMeta post={post} />
         </div>
-      </div>
+      </a>
     </AnimateIn>
   );
 }
 
 function BlogPage() {
+  const [tag, setTag] = useState('All');
+  const featured = POSTS[0];
+  const showFeatured = tag === 'All';
+  const list = showFeatured ? POSTS.slice(1) : POSTS.filter((p) => p.tag === tag);
+
   return (
     <main>
       {/* PAGE HERO */}
-      <section className="page-hero">
-        <div className="hero-glow" aria-hidden="true" />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <AnimateIn>
-            <div className="section-label" style={{ justifyContent: 'center', margin: '0 auto 1rem' }}>
-              Blog
+      <section className="journal-hero">
+        <div className="container">
+          <AnimateIn className="head-split">
+            <div>
+              <div className="section-label">The Journal</div>
+              <h1>Notes from <em>the margins.</em></h1>
             </div>
-            <h1 style={{ textAlign: 'center', fontSize: 'clamp(2.2rem, 5vw, 4rem)', maxWidth: '700px', margin: '0 auto 1rem' }}>
-              Insights for<br />
-              <span className="gradient-text">modern creators</span>
-            </h1>
-            <p style={{ color: 'var(--muted)', fontSize: '1.05rem', maxWidth: '480px', margin: '0 auto', textAlign: 'center', fontWeight: 300 }}>
-              Strategies, product updates, and real stories from the Lumina community.
+            <p>
+              Essays, guides and changelogs on writing with AI without sounding like it —
+              from the people building Lumina and the people using it.
             </p>
           </AnimateIn>
+
+          <div className="journal-filters" role="tablist" aria-label="Filter posts">
+            {TAGS.map((t) => (
+              <button
+                key={t}
+                type="button"
+                role="tab"
+                aria-selected={tag === t}
+                className={tag === t ? 'on' : ''}
+                onClick={() => setTag(t)}
+              >
+                {t}
+                <span className="count">
+                  {t === 'All' ? POSTS.length : POSTS.filter((p) => p.tag === t).length}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* POSTS GRID */}
-      <section style={{ paddingTop: '2rem' }}>
+      {/* POSTS */}
+      <section className="journal-body">
         <div className="container">
-          {/* Featured post */}
-          <AnimateIn>
-            <div style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              borderRadius: '20px',
-              overflow: 'hidden',
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 0,
-              marginBottom: '3rem',
-              transition: 'border-color 0.3s',
-            }}
-              className="blog-card"
-            >
-              <div style={{
-                background: POSTS[0].gradient,
-                minHeight: '280px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '5rem',
-                opacity: 0.7,
-              }}>
-                {POSTS[0].icon}
-              </div>
-              <div style={{ padding: '3rem' }}>
-                <span className="blog-tag">Featured · {POSTS[0].tag}</span>
-                <h2 style={{ fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)', margin: '1rem 0 0.75rem', lineHeight: 1.3 }}>
-                  {POSTS[0].title}
-                </h2>
-                <p style={{ color: 'var(--muted)', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: '1.5rem', fontWeight: 300 }}>
-                  {POSTS[0].excerpt}
-                </p>
-                <div className="blog-meta">
-                  <span>{POSTS[0].author}</span>
-                  <span className="blog-meta-dot" />
-                  <span>{POSTS[0].date}</span>
-                  <span className="blog-meta-dot" />
-                  <span>{POSTS[0].readTime}</span>
+          {showFeatured && (
+            <AnimateIn>
+              <a href="/blog" className="featured-post" onClick={(e) => e.preventDefault()}>
+                <Cover post={featured} issue={featured.id} large />
+                <div className="featured-body">
+                  <div className="featured-kicker mono">
+                    <span className="featured-flag">Featured</span>
+                    {featured.tag} · {featured.readTime}
+                  </div>
+                  <h2>{featured.title}</h2>
+                  <p>{featured.excerpt}</p>
+                  <div className="featured-foot">
+                    <PostMeta post={featured} />
+                    <span className="read-link">Read the essay <span className="arrow">→</span></span>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </AnimateIn>
+              </a>
+            </AnimateIn>
+          )}
 
-          {/* Regular posts grid */}
+          <div className="journal-list-head">
+            <span className="mono">{showFeatured ? 'Latest' : tag}</span>
+            <span className="mono">{list.length} {list.length === 1 ? 'post' : 'posts'}</span>
+          </div>
+
           <div className="blog-grid">
-            {POSTS.map((post, i) => (
+            {list.map((post, i) => (
               <BlogCard key={post.id} post={post} index={i} />
             ))}
           </div>
@@ -149,26 +230,29 @@ function BlogPage() {
       </section>
 
       {/* NEWSLETTER */}
-      <section style={{ padding: '5rem 0' }}>
+      <section className="newsletter-section">
         <div className="container">
           <AnimateIn>
-            <div className="cta-box" style={{ padding: '3.5rem' }}>
-              <div className="section-label" style={{ justifyContent: 'center', margin: '0 auto 1rem' }}>Newsletter</div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', maxWidth: '400px' }}>
-                Get new posts in your inbox
-              </h2>
-              <p>Weekly insights on AI content, design, and creative workflow. No spam — ever.</p>
-              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', maxWidth: '420px', margin: '0 auto', flexWrap: 'wrap' }}>
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  className="form-input"
-                  style={{ flex: 1, minWidth: '200px', margin: 0 }}
-                />
-                <button className="btn-primary" style={{ borderRadius: '10px', padding: '0.8rem 1.5rem' }}>
-                  Subscribe
-                </button>
+            <div className="newsletter">
+              <div>
+                <div className="section-label">The Sunday Edit</div>
+                <h2>One good idea about writing, <em>every Sunday.</em></h2>
               </div>
+              <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
+                <label className="form-label" htmlFor="newsletter-email">Email address</label>
+                <div className="newsletter-row">
+                  <input
+                    id="newsletter-email"
+                    type="email"
+                    placeholder="you@company.com"
+                    className="form-input"
+                  />
+                  <button type="submit" className="btn-primary">
+                    Subscribe <span className="arrow">→</span>
+                  </button>
+                </div>
+                <p className="mono">4,800 readers · Unsubscribe in one click</p>
+              </form>
             </div>
           </AnimateIn>
         </div>

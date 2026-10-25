@@ -37,7 +37,7 @@ const PLANS = [
       { text: '5 automation workflows', active: true },
       { text: 'Basic analytics', active: true },
     ],
-    cta: 'Start Pro free — 14 days',
+    cta: 'Try Pro free for 14 days',
     ctaStyle: 'primary',
     featured: true,
   },
@@ -70,69 +70,61 @@ function PricingSection({ showHeading = true }) {
     <section id="pricing">
       <div className="container">
         {showHeading && (
-          <AnimateIn>
-            <div className="section-head" style={{ textAlign: 'center', maxWidth: '520px', margin: '0 auto 3rem' }}>
-              <div className="section-label" style={{ justifyContent: 'center', margin: '0 auto 1rem' }}>
-                Pricing
-              </div>
-              <h2>Simple pricing. No surprises.</h2>
-              <p>Start free, scale when you're ready. Every plan includes our core AI engine.</p>
+          <AnimateIn className="head-split">
+            <div>
+              <div className="section-label">Pricing</div>
+              <h2>Start free. <em>Pay when it pays.</em></h2>
             </div>
+            <p>Every plan runs on the same engine and the same Voice Lock model. You only pay for volume and seats.</p>
           </AnimateIn>
         )}
 
-        <div className="pricing-toggle">
-          <span className="toggle-label" style={!annual ? { color: 'var(--text)' } : {}}>Monthly</span>
-          <div
-            className={`toggle-switch ${annual ? 'annual' : 'monthly'}`}
-            onClick={() => setAnnual(!annual)}
-            role="switch"
-            aria-checked={annual}
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && setAnnual(!annual)}
-          />
-          <span className="toggle-label" style={annual ? { color: 'var(--text)' } : {}}>
-            Annually <span className="save-badge">Save 35%</span>
-          </span>
+        <div style={{ textAlign: 'center' }}>
+          <div className="pricing-toggle" role="group" aria-label="Billing period">
+            <button type="button" className={!annual ? 'on' : ''} onClick={() => setAnnual(false)} aria-pressed={!annual}>
+              Monthly
+            </button>
+            <button type="button" className={annual ? 'on' : ''} onClick={() => setAnnual(true)} aria-pressed={annual}>
+              Annually <span className="save-badge">Up to 25% off</span>
+            </button>
+          </div>
         </div>
 
-        <div className="pricing-grid">
-          {PLANS.map((plan, i) => (
-            <AnimateIn key={plan.name} delay={i} className={`pricing-card${plan.featured ? ' featured' : ''}`}>
-              {plan.featured && <div className="featured-badge">Most Popular</div>}
+        <AnimateIn className="pricing-grid">
+          {PLANS.map((plan) => (
+            <div key={plan.name} className={`pricing-card${plan.featured ? ' featured' : ''}`}>
+              <div className="plan-top">
                 <div className="plan-name">{plan.name}</div>
-                <div className="plan-price">
-                  {plan.monthlyPrice === 0 ? (
-                    <><sup>$</sup>0</>
-                  ) : (
-                    <><sup>$</sup>{annual ? plan.annualPrice : plan.monthlyPrice}</>
-                  )}
-                </div>
-                <div className="plan-period">
-                  {plan.monthlyPrice === 0
-                    ? 'Free forever'
-                    : `${plan.period}${annual ? ', billed annually' : ''}`
-                  }
-                </div>
-                <div className="plan-desc">{plan.desc}</div>
-                <div className="plan-divider" />
-                <ul className="plan-features">
-                  {plan.features.map((f) => (
-                    <li key={f.text} className={f.active ? '' : 'inactive'}>
-                      <span className="check">✓</span>
-                      {f.text}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  className={`btn-plan ${plan.ctaStyle}`}
-                  onClick={openModal}
-                >
-                  {plan.cta}
-                </button>
-            </AnimateIn>
+                {plan.featured && <div className="featured-badge">Most picked</div>}
+              </div>
+              <div className="plan-price">
+                <sup>$</sup>{annual ? plan.annualPrice : plan.monthlyPrice}
+              </div>
+              <div className="plan-period">
+                {plan.monthlyPrice === 0
+                  ? 'Free forever'
+                  : `${plan.period}${annual ? ', billed annually' : ''}`
+                }
+              </div>
+              <div className="plan-desc">{plan.desc}</div>
+              <div className="plan-divider" />
+              <ul className="plan-features">
+                {plan.features.map((f) => (
+                  <li key={f.text} className={f.active ? '' : 'inactive'}>
+                    <span className="check">{f.active ? '✓' : '—'}</span>
+                    {f.text}
+                  </li>
+                ))}
+              </ul>
+              <button
+                className={`btn-plan ${plan.ctaStyle}`}
+                onClick={openModal}
+              >
+                {plan.cta}
+              </button>
+            </div>
           ))}
-        </div>
+        </AnimateIn>
       </div>
     </section>
   );

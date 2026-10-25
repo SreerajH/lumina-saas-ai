@@ -15,21 +15,21 @@ function Navbar({ onStartFree }) {
 
   return (
     <nav className={`nav-bar${scrolled ? ' scrolled' : ''}`}>
-      <Link to="/" className="nav-logo">Lumina</Link>
+      <Link to="/" className="nav-logo">Lumina<span className="dot-mark">.</span></Link>
 
-      {!isAuthPage && (
+      {!isAuthPage ? (
         <ul className="nav-links">
           <li><Link to="/features">Features</Link></li>
-          <li><Link to="/#how">How it works</Link></li>
+          <li><a href="/#how">How it works</a></li>
           <li><Link to="/pricing">Pricing</Link></li>
-          <li><Link to="/blog">Blog</Link></li>
+          <li><Link to="/blog">Journal</Link></li>
         </ul>
-      )}
+      ) : <span />}
 
       <div className="nav-cta">
         <Link to="/login" className="btn-ghost">Sign in</Link>
         <button onClick={onStartFree} className="btn-primary">
-          Start free →
+          Start writing <span className="arrow">→</span>
         </button>
       </div>
     </nav>

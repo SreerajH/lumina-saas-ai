@@ -10,17 +10,19 @@ function CtaBanner() {
     <section className="cta-section" id="cta">
       <div className="container">
         <AnimateIn>
-          <div className="cta-box">
-            <h2>Ready to create 10× faster?</h2>
-            <p>
-              Join 12,000+ creators who've made Lumina their creative HQ.
-              Start for free — no card required.
-            </p>
-            <div className="cta-actions">
-              <button className="btn-primary btn-large" onClick={openModal}>
-                Get started free →
-              </button>
-              <Link to="/pricing" className="btn-outline">See pricing</Link>
+          <div className="cta-red">
+            <h2>Your next draft is <em>already</em> better.</h2>
+            <div>
+              <p>
+                Join 12,000+ creators who made Lumina the place their work starts.
+                Free to begin — no card, no sales call.
+              </p>
+              <div className="cta-actions">
+                <button className="btn-primary btn-large" onClick={openModal}>
+                  Start free <span className="arrow">→</span>
+                </button>
+                <Link to="/pricing" className="btn-outline">See pricing</Link>
+              </div>
             </div>
           </div>
         </AnimateIn>
