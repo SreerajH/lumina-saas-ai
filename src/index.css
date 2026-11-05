@@ -1576,6 +1576,114 @@ section { padding: 8rem 0; }
 .page-hero .hero-badge { margin-left: auto; margin-right: auto; }
 .hero-glow { display: none; }
 
+/* ─── VOICE PORTAL (GlyphPortal skin) ──────────────────────────
+   The component scopes its own CSS under :where(#id) (zero specificity),
+   so these class selectors win without !important. */
+.voice-portal { padding: 0; margin-top: 7.5rem; font-family: var(--font-body); }
+.vp-placeholder { height: 100vh; height: 100svh; margin-top: 7.5rem; }
+
+.vp-field {
+  position: absolute;
+  inset: 0;
+  transform: scale(var(--gp-field-scale, 1));
+  background:
+    radial-gradient(circle at 16% 12%, rgba(255, 196, 170, 0.45), transparent 34%),
+    radial-gradient(circle at 84% 86%, rgba(120, 24, 10, 0.55), transparent 46%),
+    repeating-linear-gradient(to bottom, transparent 0 39px, rgba(23, 22, 15, 0.12) 39px 40px),
+    linear-gradient(140deg, #ef5a3c 0%, var(--red) 45%, var(--red-deep) 100%);
+}
+/* the manuscript margin rule */
+.vp-field::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 9%;
+  width: 1.5px;
+  background: rgba(251, 249, 244, 0.35);
+}
+
+/* opening frame */
+.vp-eyebrow {
+  position: absolute;
+  inset: auto 24px calc(100% - var(--gp-word-top, 35%) + 28px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--graphite);
+}
+.vp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); }
+.vp-support {
+  position: absolute;
+  inset: calc(var(--gp-word-bottom, 50%) + 26px) 24px auto;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  line-height: 1.1;
+  color: var(--ink);
+}
+.vp-support em { color: var(--red); }
+.vp-scroll {
+  position: absolute;
+  inset: auto 24px 6%;
+  text-align: center;
+  color: var(--graphite);
+  font-size: 0.68rem;
+}
+
+.voice-portal [data-gp-caption] {
+  inset: calc(var(--gp-word-bottom, 50%) + 96px) 24px auto;
+  justify-content: center;
+}
+.voice-portal [data-gp-hint] { display: none; }
+.voice-portal [data-gp-enter] {
+  min-height: 44px;
+  padding: 0 1.1rem;
+  gap: 0.9rem;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--sheet);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.25s var(--ease);
+}
+.voice-portal [data-gp-enter]:hover { background: var(--red); }
+.voice-portal [data-gp-select] { border-color: var(--border2); border-radius: 8px; font-family: var(--font-body); }
+.voice-portal [data-gp-touch-picker] { top: auto; bottom: 14%; }
+@media (any-pointer: coarse) { .vp-scroll { bottom: 5%; } }
+
+/* inside the O */
+.voice-portal [data-gp-content] { padding: 6rem clamp(16px, 6vw, 6rem); }
+.vp-inside { width: min(100%, 1160px); margin: 0 auto; }
+.vp-label { color: rgba(251, 249, 244, 0.75); margin-bottom: 1.5rem; }
+.vp-inside h2 {
+  font-size: clamp(2.6rem, 5.6vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  max-width: 15ch;
+  color: var(--sheet);
+  margin-bottom: 3.5rem;
+}
+.vp-inside h2 em { color: var(--ink); }
+.vp-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+.vp-principle { border-top: 1px solid rgba(251, 249, 244, 0.4); padding-top: 1.1rem; }
+.vp-num { color: rgba(251, 249, 244, 0.7); display: block; margin-bottom: 1rem; }
+.vp-principle h3 { color: var(--sheet); font-size: 1.15rem; margin-bottom: 0.5rem; }
+.vp-principle p { color: rgba(251, 249, 244, 0.85); font-size: 0.95rem; line-height: 1.6; }
+.vp-cta.btn-primary:hover { background: var(--sheet); color: var(--ink); }
+
+@media (max-width: 900px) {
+  .voice-portal, .vp-placeholder { margin-top: 5.5rem; }
+  .vp-principles { grid-template-columns: 1fr; gap: 1.75rem; }
+  .voice-portal [data-gp-content] { padding: 4.5rem 20px; }
+}
+
 /* ─── MOTION ───────────────────────────────────────────────────
    Choreography keyed off `.visible` (AnimateIn / useInView) and the hero's
    `.story-N` step class. Everything collapses under prefers-reduced-motion. */
