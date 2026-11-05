@@ -1,5 +1,6 @@
 import HeroSection from '../components/sections/HeroSection';
 import LogosSection from '../components/sections/LogosSection';
+import VoicePortalSection from '../components/sections/VoicePortalSection';
 import FeaturesSection from '../components/sections/FeaturesSection';
 import HowItWorksSection from '../components/sections/HowItWorksSection';
 import StatsSection from '../components/sections/StatsSection';
@@ -11,6 +12,7 @@ import CtaBanner from '../components/sections/CtaBanner';
 function HomePage() {
   return (
     <main>
+      <VoicePortalSection />
       <HeroSection />
       <LogosSection />
       <FeaturesSection />

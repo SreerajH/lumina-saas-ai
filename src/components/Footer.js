@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useInView } from './AnimateIn';
+
+const WORDMARK = 'Lumina.'.split('');
 
 function Footer() {
+  const [markRef, markInView] = useInView(0.2);
+
   return (
     <footer className="footer">
       <div className="container">
@@ -45,7 +50,7 @@ function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span className="footer-copy">© 2026 Lumina AI, Inc. · Set in Instrument Serif &amp; Geist</span>
+          <span className="footer-copy">© 2026 Lumina AI, Inc. · Set in Instrument Serif, Instrument Sans &amp; Fira Code</span>
           <div className="footer-social">
             <a href="/" className="social-link">X</a>
             <a href="/" className="social-link">LinkedIn</a>
@@ -54,7 +59,11 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="footer-wordmark" aria-hidden="true">Lumina<span>.</span></div>
+      <div ref={markRef} className={`footer-wordmark${markInView ? ' visible' : ''}`} aria-hidden="true">
+        {WORDMARK.map((ch, i) => (
+          <span key={i} className={ch === '.' ? 'dot' : ''} style={{ '--i': i }}>{ch}</span>
+        ))}
+      </div>
     </footer>
   );
 }

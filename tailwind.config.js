@@ -15,8 +15,8 @@ module.exports = {
       },
       fontFamily: {
         display: ['Instrument Serif', 'serif'],
-        body: ['Geist', 'sans-serif'],
-        mono: ['Geist Mono', 'monospace'],
+        body: ['Instrument Sans', 'sans-serif'],
+        mono: ['Fira Code', 'monospace'],
       },
       letterSpacing: {
         tight2: '-0.02em',

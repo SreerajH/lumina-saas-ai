@@ -98,7 +98,11 @@ function PricingSection({ showHeading = true }) {
                 {plan.featured && <div className="featured-badge">Most picked</div>}
               </div>
               <div className="plan-price">
-                <sup>$</sup>{annual ? plan.annualPrice : plan.monthlyPrice}
+                <sup>$</sup>
+                {/* keyed so the figure re-mounts and rolls in on toggle */}
+                <span key={annual ? 'a' : 'm'} className="price-roll">
+                  {annual ? plan.annualPrice : plan.monthlyPrice}
+                </span>
               </div>
               <div className="plan-period">
                 {plan.monthlyPrice === 0

@@ -41,7 +41,7 @@ function HowItWorksSection() {
         <div className="steps-row">
           {STEPS.map((step, i) => (
             <AnimateIn key={step.num} delay={i} className="step-col">
-              <div className="step-num">{step.num}</div>
+              <div className="step-num"><span>{step.num}</span></div>
               <h3>{step.title}</h3>
               <p>{step.desc}</p>
             </AnimateIn>

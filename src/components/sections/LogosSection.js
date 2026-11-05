@@ -1,3 +1,5 @@
+import { useInView } from '../AnimateIn';
+
 // Wordmarks set in mixed treatments so the strip reads like real brands, not one font repeated.
 const LOGOS = [
   { name: 'Northwind', style: 'f1' },
@@ -9,14 +11,16 @@ const LOGOS = [
 ];
 
 function LogosSection() {
+  const [ref, inView] = useInView(0.3);
+
   return (
     <section className="logos-section" id="logos">
       <div className="container">
-        <div className="logos-wrap">
+        <div ref={ref} className={`logos-wrap${inView ? ' visible' : ''}`}>
           <p className="logos-label mono">In daily use at</p>
           <div className="logos-row">
-            {LOGOS.map((l) => (
-              <span key={l.name} className={`logo-item ${l.style}`}>{l.name}</span>
+            {LOGOS.map((l, i) => (
+              <span key={l.name} className={`logo-item ${l.style}`} style={{ '--i': i }}>{l.name}</span>
             ))}
           </div>
         </div>

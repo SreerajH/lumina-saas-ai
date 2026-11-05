@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import AnimateIn from '../AnimateIn';
 import { api } from '../../api';
+import CountUp from '../CountUp';
 
 // value is split so the unit can be set in the accent colour
 const DEFAULT_STATS = [
@@ -38,7 +39,7 @@ function StatsSection() {
         <div className="stats-grid">
           {stats.map((s, i) => (
             <AnimateIn key={s.label} delay={i} className="stat-item">
-              <div className="stat-value">{s.value}<em>{s.unit}</em></div>
+              <div className="stat-value"><CountUp value={s.value} /><em>{s.unit}</em></div>
               <div className="stat-label">{s.label}</div>
             </AnimateIn>
           ))}
