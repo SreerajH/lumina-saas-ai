@@ -33,24 +33,26 @@ function useEditorStory(start) {
 
 function HeroSection() {
   const { openModal } = useContext(ModalContext);
+  // Sits below the portal now, so its intro animations wait until it's on screen.
+  const [sectionRef, sectionInView] = useInView(0.2);
   const [stageRef, stageInView] = useInView(0.3);
   const { step, typed } = useEditorStory(stageInView);
   const voice = step >= 3 ? 94 : step >= 1 ? 88 : 81;
   const voiceOn = Math.round((voice / 100) * VOICE_TICKS);
 
   return (
-    <section className="hero" id="hero">
+    <section ref={sectionRef} className={`hero${sectionInView ? ' visible' : ''}`} id="editor">
       <div className="container">
         <div className="hero-meta mono">
           <span className="live-dot" />
-          Public beta <span className="sep">/</span> 12,000+ creators <span className="sep">/</span> v0.9
+          The editor <span className="sep">/</span> Live preview <span className="sep">/</span> v0.9
         </div>
 
-        <h1 className="hero-title">
+        <h2 className="hero-title">
           Make things that sound like{' '}
           <span className="strike">a robot</span>
           <span className="insert">you.</span>
-        </h1>
+        </h2>
 
         <div className="hero-row">
           <p className="hero-sub">

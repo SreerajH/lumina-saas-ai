@@ -12,9 +12,9 @@ import CtaBanner from '../components/sections/CtaBanner';
 function HomePage() {
   return (
     <main>
+      <VoicePortalSection />
       <HeroSection />
       <LogosSection />
-      <VoicePortalSection />
       <FeaturesSection />
       <HowItWorksSection />
       <StatsSection />

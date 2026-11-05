@@ -219,9 +219,13 @@ section { padding: 8rem 0; }
 
 /* ─── HERO ───────────────────────────────────────────────────── */
 .hero {
-  padding: 9.5rem 0 0;
+  padding: 8rem 0 0;
   position: relative;
 }
+/* hold the intro choreography until the section scrolls into view */
+.hero:not(.visible) *,
+.hero:not(.visible) *::before,
+.hero:not(.visible) *::after { animation-play-state: paused !important; }
 
 .hero-meta {
   display: flex;
@@ -1579,8 +1583,8 @@ section { padding: 8rem 0; }
 /* ─── VOICE PORTAL (GlyphPortal skin) ──────────────────────────
    The component scopes its own CSS under :where(#id) (zero specificity),
    so these class selectors win without !important. */
-.voice-portal { padding: 0; margin-top: 7.5rem; font-family: var(--font-body); }
-.vp-placeholder { height: 100vh; height: 100svh; margin-top: 7.5rem; }
+.voice-portal { padding: 0; font-family: var(--font-body); }
+.vp-placeholder { height: 100vh; height: 100svh; }
 
 .vp-field {
   position: absolute;
@@ -1612,46 +1616,48 @@ section { padding: 8rem 0; }
   gap: 0.6rem;
   color: var(--graphite);
 }
-.vp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); }
-.vp-support {
+.vp-eyebrow .sep { opacity: 0.4; }
+.vp-lockup {
   position: absolute;
-  inset: calc(var(--gp-word-bottom, 50%) + 26px) 24px auto;
+  inset: calc(var(--gp-word-bottom, 50%) + 22px) 24px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+}
+.vp-headline {
   text-align: center;
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
-  line-height: 1.1;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 3.2vw, 2.7rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   color: var(--ink);
 }
-.vp-support em { color: var(--red); }
-.vp-scroll {
-  position: absolute;
-  inset: auto 24px 6%;
-  text-align: center;
-  color: var(--graphite);
-  font-size: 0.68rem;
+.vp-headline em { font-style: italic; color: var(--red); }
+.vp-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
-.voice-portal [data-gp-caption] {
-  inset: calc(var(--gp-word-bottom, 50%) + 96px) 24px auto;
-  justify-content: center;
-}
+/* the component's enter link, restyled as a quiet scroll cue */
+.voice-portal [data-gp-caption] { inset: auto 24px 5%; justify-content: center; }
 .voice-portal [data-gp-hint] { display: none; }
 .voice-portal [data-gp-enter] {
-  min-height: 44px;
-  padding: 0 1.1rem;
-  gap: 0.9rem;
-  border-radius: 8px;
-  background: var(--ink);
-  color: var(--sheet);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: background 0.25s var(--ease);
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  transition: color 0.2s;
 }
-.voice-portal [data-gp-enter]:hover { background: var(--red); }
+.voice-portal [data-gp-enter]:hover { color: var(--red); }
+.voice-portal [data-gp-enter] span { animation: nudge 1.8s ease-in-out infinite; }
 .voice-portal [data-gp-select] { border-color: var(--border2); border-radius: 8px; font-family: var(--font-body); }
-.voice-portal [data-gp-touch-picker] { top: auto; bottom: 14%; }
-@media (any-pointer: coarse) { .vp-scroll { bottom: 5%; } }
+.voice-portal [data-gp-touch-picker] { top: auto; bottom: calc(5% + 52px); }
 
 /* inside the O */
 .voice-portal [data-gp-content] { padding: 6rem clamp(16px, 6vw, 6rem); }
@@ -1679,7 +1685,6 @@ section { padding: 8rem 0; }
 .vp-cta.btn-primary:hover { background: var(--sheet); color: var(--ink); }
 
 @media (max-width: 900px) {
-  .voice-portal, .vp-placeholder { margin-top: 5.5rem; }
   .vp-principles { grid-template-columns: 1fr; gap: 1.75rem; }
   .voice-portal [data-gp-content] { padding: 4.5rem 20px; }
 }
@@ -1829,6 +1834,7 @@ section { padding: 8rem 0; }
 @keyframes badgeWiggle { 0%, 92%, 100% { transform: none; } 95% { transform: rotate(-4deg); } 98% { transform: rotate(3deg); } }
 @keyframes faqIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 @keyframes drift { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(-60px, -40px) rotate(20deg); } }
+@keyframes nudge { 0%, 100% { transform: none; } 50% { transform: translate(2px, 3px); } }
 @keyframes discFloat { from { transform: translate(0, 0); } to { transform: translate(-8%, 7%); } }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }

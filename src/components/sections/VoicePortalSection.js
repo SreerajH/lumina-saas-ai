@@ -61,7 +61,7 @@ function VoicePortalSection() {
       fontFamily={face}
       fontWeight={700}
       scrollLength={2.6}
-      enterLabel="Step inside"
+      enterLabel="Scroll to step inside"
       className="voice-portal"
       style={{
         '--gp-paper': 'var(--paper)',
@@ -73,12 +73,19 @@ function VoicePortalSection() {
       front={(
         <>
           <p className="vp-eyebrow mono">
-            <span className="vp-dot" /> Before the features — one idea
+            <span className="live-dot" /> Public beta <span className="sep">/</span> 12,000+ creators
           </p>
-          <p className="vp-support">
-            Everything in Lumina starts with <em>yours.</em>
-          </p>
-          <span className="vp-scroll mono">Scroll to step inside ↓</span>
+          <div className="vp-lockup">
+            <h1 className="vp-headline">
+              The writing studio that sounds like <em>you.</em>
+            </h1>
+            <div className="vp-actions">
+              <button type="button" className="btn-primary btn-large" onClick={openModal}>
+                Start free <span className="arrow">→</span>
+              </button>
+              <a href="#editor" className="btn-outline">See it edit</a>
+            </div>
+          </div>
         </>
       )}
     >
